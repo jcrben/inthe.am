@@ -155,16 +155,17 @@ fi
 export PATH=$MAIN_DIR/node_modules/.bin:$PATH
 npm install -g npm@5.3.0
 npm install -g bower@1.7.6
-npm install ember-cli@2.4.3
+echo "running sudo install ember"
+sudo npm install ember-cli@2.4.3
 ember --version
 echo "running npm install"
-npm install
+sudo npm install
 echo "running bower install"
 bower --config.interactive=false install --allow-root
 set -e
 echo "running ember build"
-ember build
-which ember
+# ember build
+# which ember
 
 # Install requirements
 echo "installing python requirements"
@@ -184,10 +185,11 @@ if [ -z "$TRAVIS" ]; then
     service taskd restart
 
     set +e
-        chown -R vagrant:vagrant $MAIN_DIR
+        echo $(whoami)
+        sudo chown -R vagrant:vagrant $MAIN_DIR
     set -e
 else
     if [ -d /home/travis/.config ]; then
-        chmod -R 777 /home/travis/.config
+        sudo chmod -R 777 /home/travis/.config
     fi
 fi

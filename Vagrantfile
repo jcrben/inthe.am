@@ -37,13 +37,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Default value: false
   config.ssh.forward_agent = true
   config.ssh.forward_x11 = true
+  # config.ssh.username = 'root'
+  # config.ssh.password = 'vagrant'
+  # config.ssh.insert_key = 'true'
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "./", "/var/www/twweb", type: "nfs"
-  config.vm.synced_folder "./", "/vagrant", type: "nfs"
+  config.vm.synced_folder "./", "/var/www/twweb"
+  config.vm.synced_folder "./", "/vagrant"
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize [
