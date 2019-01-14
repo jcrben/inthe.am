@@ -713,6 +713,7 @@ class TaskStore(models.Model):
     def sync(
         self, function=None, args=None, kwargs=None, async=True, msg=None
     ):
+        print('syncing')
         if not self.sync_enabled or not self.sync_permitted:
             return False
         if not self.sync_uses_default_server:
@@ -726,6 +727,7 @@ class TaskStore(models.Model):
             self.reset_taskd_configuration()
             return True
 
+        print('further')
         client = get_lock_redis()
         debounce_id = kwargs.get('debounce_id') if kwargs else None
         debounce_key = get_debounce_name_for_store(self)

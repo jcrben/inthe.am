@@ -1,3 +1,4 @@
+import sys, traceback
 from functools import wraps
 
 from django.core.exceptions import PermissionDenied
@@ -21,6 +22,8 @@ def process_authentication(required=True):
 def requires_task_store(f):
     @wraps(f)
     def wrapper(self, *args, **kwargs):
+        # traceback.print_stack()
+        print('getting request')
         request = args[0]
         if not request.user.is_authenticated():
             raise PermissionDenied()

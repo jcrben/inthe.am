@@ -96,6 +96,7 @@ class Application(object):
             self.last_heartbeat = datetime.datetime.now()
 
     def __init__(self, env, start_response):
+        print('wsgi_status __init__ will sync')
         start_response('200 OK', self.HEADERS)
         self.last_heartbeat = None
         self.env = env

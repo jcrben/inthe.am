@@ -24,6 +24,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.vm.network "forwarded_port", guest: i, host: i
   end
 
+  config.vm.network "forwarded_port", guest: 53589, host: 53589
+
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
   config.vm.network "private_network", ip: "192.168.57.10"
@@ -53,6 +55,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       "modifyvm", :id,
       "--memory", "1024",
       "--cpus", "1"
+      # "--cableconnected1", "on"
     ]
   end
 
@@ -71,7 +74,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # View the documentation for the provider you're using for more
   # information on available options.
   
-  config.vm.provision "shell", path: "scripts/vagrant/init_environment.sh"
+  config.vm.provision "shell", 
+    env: {
+      "TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY" => "275944523211-oba5hb98foi0qtqhavn1u0d0n3bmhsph.apps.googleusercontent.com",
+      "TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET" => "Vdl2zVG58VNVl3SP7s5fUTqC"
+
+    },
+    path: "scripts/vagrant/init_environment.sh"
 
   # Enable provisioning with CFEngine. CFEngine Community packages are
   # automatically installed. For example, configure the host as a

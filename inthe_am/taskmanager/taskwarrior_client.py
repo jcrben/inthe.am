@@ -63,6 +63,7 @@ class TaskwarriorClient(TaskWarriorShellout):
         return False
 
     def _get_json(self, *args):
+        print('getting json')
         encoded = self._execute(*args)[0]
         decoded = encoded.decode('utf-8', 'replace')
         return json.loads(decoded)

@@ -55,6 +55,7 @@ def autoconfigure_taskd(self, store_id):
     max_retries=10,
 )
 def sync_repository(self, store_id, debounce_id=None, **kwargs):
+    print('sync_repository')
     from .models import TaskStore
     store = TaskStore.objects.get(pk=store_id)
     try:

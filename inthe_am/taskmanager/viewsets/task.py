@@ -3,6 +3,8 @@ import json
 import logging
 import re
 import uuid
+import sys, traceback
+
 
 from django.contrib.auth.models import User
 from django.http import (
@@ -62,6 +64,7 @@ class TaskViewSet(viewsets.ViewSet):
     ]
 
     def dispatch(self, request, *args, **kwargs):
+        # traceback.print_stack()
         if request.user.is_authenticated():
             metadata = models.UserMetadata.get_for_user(request.user)
         else:
@@ -89,6 +92,7 @@ class TaskViewSet(viewsets.ViewSet):
         return super(TaskViewSet, self).dispatch(request, *args, **kwargs)
 
     def passes_filters(self, task, filters):
+        # traceback.print_stack()
         passes = True
         for key, value in filters.items():
             if key not in self.FILTERABLE_FIELDS:
@@ -100,6 +104,8 @@ class TaskViewSet(viewsets.ViewSet):
 
     @requires_task_store
     def list(self, request, store=None):
+        print('inside list')
+        # traceback.print_stack()
         if hasattr(request, 'GET'):
             filters = request.GET.copy()
 
@@ -247,6 +253,7 @@ class TaskViewSet(viewsets.ViewSet):
     @requires_task_store
     @list_route(methods=['post'])
     def sync(self, request, store=None):
+        print('viewsets sync')
         result = store.sync(async=False)
         if not result:
             return Response(

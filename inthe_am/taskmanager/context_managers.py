@@ -69,6 +69,7 @@ def git_checkpoint(
     wait_timeout=settings.LOCKFILE_WAIT_TIMEOUT,
     lock_timeout=settings.LOCKFILE_TIMEOUT_SECONDS,
 ):
+    print('git_checkpoint to store.sync')
     lock_name = get_lock_name_for_store(store)
     try:
         pre_work_sha = store.repository.head()

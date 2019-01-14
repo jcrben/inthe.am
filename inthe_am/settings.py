@@ -100,6 +100,7 @@ ENVIRONMENT_SETTING_PREFIX = 'TWWEB_'
 
 LOGIN_REDIRECT_URL = '/'
 
+# TASK_STORAGE_PATH = os.path.join('var','taskd')
 TASK_STORAGE_PATH = os.path.join(BASE_DIR, 'task_data')
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')

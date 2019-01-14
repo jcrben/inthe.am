@@ -1,8 +1,8 @@
 if [ -z "$TRAVIS" ]; then
     # You *must* generate a pair of google oauth keys in order to
     # handle log-in correctly
-    export TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=enter your key
-    export TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=enter your secret
+    export TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=${TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY}
+    export TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=${TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET}
 
     # If you would like to be able to run integration tests, you'll need
     # to create a dummy google account, too

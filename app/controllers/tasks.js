@@ -22,6 +22,7 @@ var controller = ArrayController.extend({
       url: this.get('applicationController').urls.sync,
       type: 'POST'
     }).then(function () {
+        console.log('refresh hitting sync')
             // Then, request a new list from the endpoint to make sure
             // we gather any new tasks, too.
       this.store.findAll('task').then(function () {
