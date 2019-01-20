@@ -37,8 +37,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
-  config.ssh.forward_agent = true
-  config.ssh.forward_x11 = true
+  config.ssh.forward_env = ["TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY", "TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET"]
+  # config.ssh.forward_agent = true
+  # config.ssh.forward_x11 = true
   # config.ssh.username = 'root'
   # config.ssh.password = 'vagrant'
   # config.ssh.insert_key = 'true'
@@ -59,6 +60,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     ]
   end
 
+#   config.vm.define "node-#{i}" do |node|
+#     node.vm.provision "shell",
+#       inline: "echo hello from node #{i}"
+#   end
+# end
+# config.vm.provision "shell", privileged: false, inline: "echo hello from node #{i}"
+# SHELL
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
   # Example for VirtualBox:
@@ -78,9 +86,20 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     env: {
       "TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY" => "275944523211-oba5hb98foi0qtqhavn1u0d0n3bmhsph.apps.googleusercontent.com",
       "TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET" => "Vdl2zVG58VNVl3SP7s5fUTqC"
-
     },
     path: "scripts/vagrant/init_environment.sh"
+
+
+    config.vm.provision "shell", 
+    privileged: false,
+    env: {
+      TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY: ENV['TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY'],
+      TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET: ENV['TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET']
+    },
+    inline: <<-SHELL
+    echo "export TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=$TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY" >> /home/vagrant/.profile
+    echo "export TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=$TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET" >> /home/vagrant/.profile
+  SHELL
 
   # Enable provisioning with CFEngine. CFEngine Community packages are
   # automatically installed. For example, configure the host as a
