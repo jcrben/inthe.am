@@ -101,6 +101,7 @@ class TrelloObject(models.Model):
         self.save()
 
     def reconcile(self):
+        print('trello object::reconcile')
         self.add_log_data("Reconciliation initiated.")
         if not self.store.has_active_checkpoint():
             raise CheckpointNeeded()
@@ -126,6 +127,7 @@ class TrelloObject(models.Model):
                 obj.save()
                 known_lists.pop(obj.pk, None)
             except TrelloObject.DoesNotExist:
+                print('except TrelloObject.DoesNotExist')
                 obj = TrelloObject.objects.create(
                     id=list_data.get('id'),
                     store=self.store,

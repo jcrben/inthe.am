@@ -3,6 +3,8 @@ if [ -z "$TRAVIS" ]; then
     # handle log-in correctly
     export TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY=${TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY}
     export TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET=${TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET}
+    # export TWWEB_TRELLO_API_KEY=${TWWEB_TRELLO_API_KEY}
+    # export TWWEB_TRELLO_API_SECRET=${TWWEB_TRELLO_API_SECRET}
 
     # If you would like to be able to run integration tests, you'll need
     # to create a dummy google account, too

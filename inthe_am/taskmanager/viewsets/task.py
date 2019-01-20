@@ -341,7 +341,8 @@ class TaskViewSet(viewsets.ViewSet):
     @requires_task_store
     @list_route(methods=['post'], url_path='trello/resynchronize')
     def trello_resynchronize(self, request, store=None):
-        sync_trello_tasks.apply_async(args=(store.pk, ))
+        print('trello_resynchronize')
+        sync_trello_tasks(store.pk)
         return Response(status=202)
 
     @requires_task_store

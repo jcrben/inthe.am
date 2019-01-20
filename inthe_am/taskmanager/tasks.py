@@ -260,6 +260,7 @@ def process_email_message(self, message_id):
     max_retries=1,
 )
 def reset_trello(self, store_id, **kwargs):
+    print('reseting trello')
     from .models import TaskStore, TrelloObject
     store = TaskStore.objects.get(pk=store_id)
 
@@ -297,6 +298,7 @@ def reset_trello(self, store_id, **kwargs):
     max_retries=10,
 )
 def sync_trello_tasks(self, store_id, debounce_id=None, **kwargs):
+    print('sync_trello_tasks')
     from .models import TaskStore, TrelloObject
     store = TaskStore.objects.get(pk=store_id)
     client = get_lock_redis()
@@ -373,13 +375,40 @@ def sync_trello_tasks(self, store_id, debounce_id=None, **kwargs):
         sync=False,
     ):
         todo_column = store.trello_board.get_list_by_type(TrelloObject.TO_DO)
+
+        idList = todo_column.id
+        print('todo_column', todo_column)
         for task in open_local_tasks.values():
             # If this task has a trello board ID, but it doesn't match the
             # board we're currently on, let's pretend that it doesn't have
             # an id at all -- it was probably un-deleted or restored
             task_board_id = task.get('intheamtrelloboardid')
+            task_board_list_name = task.get('intheamtrellolistname')
+            # task_board_list = task.get('intheamtrellolistname') or todo_column.id
+            # print('task_board_id', task_board_id)
             if task_board_id and task_board_id != store.trello_board.id:
                 task['intheamtrelloid'] = ''
+
+            if task_board_list_name and task.get('intheamtrelloid'):
+                # find or create list for new board
+                print('about to request get_list_filter')
+                lists = store.trello_board.client.get_list_filter('all',store.trello_board.id)
+
+                match = filter(lambda x: x == task_board_list_name, lists)
+                print('match', match)
+
+                if match:
+                    match = match[0]
+                
+                if not match:
+                    print('no match')
+                    new_list = TrelloObject.create(
+                        store=store,
+                        type=TrelloObject.LIST,
+                        name=task_board_list_name,
+                        idBoard=store.trello_board.id)
+                    
+                    idList = new_list.id
 
             if not task.get('intheamtrelloid'):
                 tob = TrelloObject.create(

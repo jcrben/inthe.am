@@ -81,7 +81,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   #
   # View the documentation for the provider you're using for more
   # information on available options.
-  
+  # Trello API secret: 79200bfb4350947c26c934bb0a86ac36b206c97d359fd1705be794dbf6654733
+  # Trello API key: a5421a6196cbff64960cf8c537c8e7d3
   config.vm.provision "shell", 
     env: {
       "TWWEB_SOCIAL_AUTH_GOOGLE_OAUTH2_KEY" => "275944523211-oba5hb98foi0qtqhavn1u0d0n3bmhsph.apps.googleusercontent.com",

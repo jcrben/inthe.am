@@ -522,6 +522,7 @@ class TaskStore(models.Model):
         lock_name = get_lock_name_for_store(self)
 
         result = client.get(lock_name)
+        return True
         if result:
             return True
         return False
