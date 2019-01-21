@@ -11,6 +11,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Every Vagrant virtual environment requires a box to build off of.
   config.vm.box = "hashicorp/precise32"
+  config.vm.define "some-name"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -42,8 +43,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # the path on the host to the actual folder. The second argument is
   # the path on the guest to mount the folder. And the optional third
   # argument is a set of non-required options.
-  config.vm.synced_folder "./", "/var/www/twweb", type: "nfs"
-  config.vm.synced_folder "./", "/vagrant", type: "nfs"
+  # , mount_options: ['mapall']
+  config.vm.synced_folder "./", "/var/www/twweb",
+    type: "nfs"
+    # nfs_export: false,
+    # bsd__nfs_options: ["-maproot=0:0","-mapall=1000:1000"]
+    # mount_options: ['rw', 'vers=3', 'tcp', 'fsc', 'actimeo=2'],
+
+  # config.vm.synced_folder "./", "/vagrant", type: "nfs"
 
   config.vm.provider "virtualbox" do |vb|
     vb.customize [
@@ -68,7 +75,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # View the documentation for the provider you're using for more
   # information on available options.
   
-  config.vm.provision "shell", path: "scripts/vagrant/init_environment.sh"
+  # config.vm.provision "shell", path: "scripts/vagrant/init_environment.sh"
+  config.vm.provision "shell", path: "scripts/vagrant/init_environment_minimal.sh"
 
   # Enable provisioning with CFEngine. CFEngine Community packages are
   # automatically installed. For example, configure the host as a
