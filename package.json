@@ -37,6 +37,7 @@
     "ember-data": "^2.4.3",
     "ember-django-adapter": "1.1.2",
     "ember-export-application-global": "^1.0.5",
+    "ember-font-awesome": "2.1.0",
     "ember-inflector": "^1.9.4",
     "ember-legacy-controllers": "0.1.0",
     "ember-legacy-views": "0.2.0",
