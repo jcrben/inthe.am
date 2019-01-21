@@ -16,14 +16,14 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
   # `vagrant box outdated`. This is not recommended.
-  config.vm.box_check_update = false
+  # config.vm.box_check_update = false
 
   # Create a forwarded port mapping which allows access to a specific port
   # within the machine from a port on the host machine. In the example below,
   # accessing "localhost:8080" will access port 80 on the guest machine.
-  for i in 8000..8009
-    config.vm.network "forwarded_port", guest: i, host: i
-  end
+  # for i in 8000..8009
+  #   config.vm.network "forwarded_port", guest: i, host: i
+  # end
 
   # Create a private network, which allows host-only access to the machine
   # using a specific IP.
@@ -36,8 +36,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # If true, then any SSH connections made will enable agent forwarding.
   # Default value: false
-  config.ssh.forward_agent = true
-  config.ssh.forward_x11 = true
+  # config.ssh.forward_agent = true
+  # config.ssh.forward_x11 = true
 
   # Share an additional folder to the guest VM. The first argument is
   # the path on the host to the actual folder. The second argument is
@@ -52,13 +52,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # config.vm.synced_folder "./", "/vagrant", type: "nfs"
 
-  config.vm.provider "virtualbox" do |vb|
-    vb.customize [
-      "modifyvm", :id,
-      "--memory", "1024",
-      "--cpus", "1"
-    ]
-  end
+  # config.vm.provider "virtualbox" do |vb|
+  #   vb.customize [
+  #     "modifyvm", :id,
+  #     "--memory", "1024",
+  #     "--cpus", "1"
+  #   ]
+  # end
 
   # Provider-specific configuration so you can fine-tune various
   # backing providers for Vagrant. These expose provider-specific options.
