@@ -16,6 +16,7 @@ npm-debug.log
 testem.log
 taskd/
 .DS_Store
+.envrc
 tasks/*
 assets/icon.xcf.tmp.png
 inthe_am/taskmanager/static/app.css
