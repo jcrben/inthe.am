@@ -142,6 +142,7 @@ class TrelloObject(models.Model):
             deleted_list.delete()
 
     def _reconcile_card(self):
+        print('reconciling card', self.meta)
         try:
             task = self.store.client.filter_tasks({
                 'intheamtrelloid': self.id,

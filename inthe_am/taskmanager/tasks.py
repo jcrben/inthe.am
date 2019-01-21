@@ -378,6 +378,7 @@ def sync_trello_tasks(self, store_id, debounce_id=None, **kwargs):
 
         idList = todo_column.id
         print('todo_column', todo_column)
+        idListNew = ''
         for task in open_local_tasks.values():
             # If this task has a trello board ID, but it doesn't match the
             # board we're currently on, let's pretend that it doesn't have
@@ -389,16 +390,23 @@ def sync_trello_tasks(self, store_id, debounce_id=None, **kwargs):
             if task_board_id and task_board_id != store.trello_board.id:
                 task['intheamtrelloid'] = ''
 
-            if task_board_list_name and task.get('intheamtrelloid'):
+            if task_board_list_name and not task.get('intheamtrelloid'):
                 # find or create list for new board
                 print('about to request get_list_filter')
                 lists = store.trello_board.client.get_list_filter('all',store.trello_board.id)
 
-                match = filter(lambda x: x == task_board_list_name, lists)
-                print('match', match)
+                print('lists:', lists)
+                match = filter(lambda x: x.get('name', '') == task_board_list_name, lists)
+                # print('match', match)
 
-                if match:
+                if len(match) > 0:
+                    # nonlocal idList
+                    print('match:', match)
                     match = match[0]
+                    idList = match.get('id', '')
+                    idListNew = match.get('id', '')
+                    print('idList:', idList)
+                    
                 
                 if not match:
                     print('no match')
@@ -411,11 +419,13 @@ def sync_trello_tasks(self, store_id, debounce_id=None, **kwargs):
                     idList = new_list.id
 
             if not task.get('intheamtrelloid'):
+                print('idList:', idList)
+                print('idListNew:', idListNew)
                 tob = TrelloObject.create(
                     store=store,
                     type=TrelloObject.CARD,
                     name=task['description'],
-                    idList=todo_column.id,
+                    idList=idListNew or idList
                 )
                 task['intheamtrelloid'] = tob.id
                 task['intheamtrelloboardid'] = store.trello_board.id
@@ -511,6 +521,7 @@ def update_trello(
     from .models import TaskStore, TrelloObject
     store = TaskStore.objects.get(pk=store_id)
     client = get_lock_redis()
+    print('updating trello')
 
     debounce_key = get_debounce_name_for_store(store, 'trello_outgoing')
     try:
